@@ -57,7 +57,7 @@
             <div class="col-span-6 sm:col-span-3">
               <label for="category"
                 class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
-              <select id="category" name="category"
+              <select id="category" name="category" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                 <option selected disabled>Pilih Kategori</option>
                 @foreach ($categories as $category)
@@ -67,7 +67,7 @@
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="unit" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Satuan</label>
-              <select id="unit" name="unit"
+              <select id="unit" name="unit" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                 <option selected disabled>Pilih satuan</option>
                 @foreach ($units as $unit)
@@ -77,7 +77,7 @@
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="supplier" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Pemasok</label>
-              <select id="supplier" name="supplier"
+              <select id="supplier" name="supplier" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                 <option selected disabled>Pilih Pemasok</option>
                 @foreach ($suppliers as $supplier)

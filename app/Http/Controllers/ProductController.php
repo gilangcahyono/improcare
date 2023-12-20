@@ -13,8 +13,14 @@ class ProductController extends Controller
 {
     public function index()
     {
+
+        $products = Product::where('name', 'like', '%' . request('search') . '%')
+            ->orWhere('barcode', 'like', '%' . request('search') . '%')
+            ->simplePaginate(5)
+            ->withQueryString();
+
         return view('products.products', [
-            'products' => Product::latest()->paginate(5),
+            'products' => $products,
             'categories' => Category::all(),
             'units' => Unit::all(),
             'suppliers' => Supplier::all(),
@@ -23,54 +29,49 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData =  $request->validate([
-            'barcode' => ['required', 'string'],
-            'name' => ['required', 'string'],
-            'price' => ['required', 'numeric'],
-            'stock' => ['required', 'numeric'],
-            'category' => ['required', 'string'],
-            'unit' => ['required', 'string'],
-            'supplier' => ['required', 'string'],
-            'image' => ['required', 'image', 'file', 'max:2048'],
-        ]);
+        $data = $request->all();
 
-        $validatedData['image'] = $request->file('image')->store('product-image');
+        if ($request->file('image')) {
 
-        Product::create($validatedData);
+            $data['image'] = $request->file('image')->store('product-image');
+        }
 
-        return redirect(route('products.index'))->with('success', 'Produk berhasil ditambahkan!');
+        Product::create($data);
+
+        return redirect(route('products.index'))
+            ->with('success', 'Produk berhasil ditambahkan!');
     }
 
     public function update(Request $request, Product $product)
     {
-        $validatedData =  $request->validate([
-            'barcode' => ['required', 'string'],
-            'name' => ['required', 'string'],
-            'price' => ['required', 'numeric'],
-            'stock' => ['required', 'numeric'],
-            'category' => ['required', 'string'],
-            'unit' => ['required', 'string'],
-            'supplier' => ['required', 'string'],
-        ]);
+        $data =  [
+            'barcode' => $request->barcode,
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'category' => $request->category,
+            'unit' => $request->unit,
+            'supplier' => $request->supplier,
+        ];
 
         if ($request->file('image')) {
 
             Storage::delete($product->image);
 
-            $validatedData =  $request->validate(['image' => ['image', 'file', 'max:2048']]);
-
-            $validatedData['image'] = $request->file('image')->store('product-image');
+            $data['image'] = $request->file('image')->store('product-image');
         }
 
-        Product::where('id', $product->id)->update($validatedData);
+        Product::where('id', $product->id)->update($data);
 
-        return redirect(route('products.index'))->with('success', 'Product berhasil diubah!');
+        return redirect(route('products.index'))
+            ->with('success', 'Product berhasil diubah!');
     }
 
     public function destroy(Product $product)
     {
         Product::destroy($product->id);
 
-        return redirect(route('products.index'))->with('success', 'Produk berhasil dihapus!');
+        return redirect(route('products.index'))
+            ->with('success', 'Produk berhasil dihapus!');
     }
 }

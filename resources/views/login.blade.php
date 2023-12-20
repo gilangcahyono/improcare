@@ -14,8 +14,7 @@
 
   <div class="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
     <a href="{{ route('home') }}" class="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
-      <img class="mr-2 h-8 w-8" src="assets/images/logo.png" alt="logo">
-      Improcare
+      <img class="h-32 w-40" src="assets/images/logo.png" alt="logo">
     </a>
     @if (session()->has('loginError'))
       <div
@@ -55,26 +54,8 @@
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
               required="">
           </div>
-          {{-- <div class="flex items-center justify-between">
-            <div class="flex items-start">
-              <div class="flex h-5 items-center">
-                <input id="remember" aria-describedby="remember" type="checkbox"
-                  class="focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 h-4 w-4 rounded border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
-                  required="">
-              </div>
-              <div class="ml-3 text-sm">
-                <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-              </div>
-            </div>
-            <a href="#" class="text-blue-600 dark:text-blue-500 text-sm font-medium hover:underline">Forgot
-              password?</a>
-          </div> --}}
           <button type="submit"
             class="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
-          {{-- <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Don’t have an account yet? <a href="#"
-              class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
-          </p> --}}
         </form>
       </div>
     </div>

@@ -10,7 +10,7 @@
         <!-- Modal header -->
         <div class="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white">
-            Edit Pemasok
+            Edit Pengguna
           </h3>
           <button type="button"
             class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -64,32 +64,19 @@
                   Akses</label>
                 <select id="role" name="role"
                   class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                  <option selected value="{{ $user->role }}">
-                    @switch($user->role)
-                      @case(1)
-                        {{ 'Admin' }}
-                      @break
-
-                      @case(2)
-                        {{ 'Sales' }}
-                      @break
-
-                      @case(3)
-                        {{ 'Kasir' }}
-                      @break
-                    @endswitch
-                  </option>
-                  <option value="1">Admin</option>
-                  <option value="2">Sales</option>
-                  <option value="3">Kasir</option>
+                  <option selected value="{{ $user->role }}">{{ $user->role }}</option>
+                  <option value="Administrator">Administrator</option>
+                  <option value="Operasional Manager">Operasional Manager</option>
+                  <option value="Sales Manager">Sales Manager</option>
+                  <option value="Service Operator">Service Operator</option>
                 </select>
               </div>
               <div class="col-span-6 sm:col-span-3">
-                <label for="address"
-                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                <textarea id="address" name="address" rows="4"
+                <label for="information"
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Keterangan</label>
+                <textarea id="information" name="information" rows="4"
                   class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  placeholder="Tulis alamat lengkap disini...">{{ $user->address }}</textarea>
+                  placeholder="Tulis keterangan disini...">{{ $user->information }}</textarea>
               </div>
             </div>
         </div>

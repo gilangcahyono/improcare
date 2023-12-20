@@ -20,7 +20,7 @@
       </div>
       <div class="flex items-center">
         <div class="ms-3 flex items-center">
-          <span class="text-md me-3 hidden sm:inline">{{ 'Nama user aktif' }}</span>
+          <span class="text-md me-3 hidden sm:inline">{{ auth()->user()->name }}</span>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="flex rounded-full text-sm dark:bg-gray-800" aria-expanded="false"

@@ -26,7 +26,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <h3 class="mb-6 mt-5 text-lg text-gray-500 dark:text-gray-400">Anda yakin ingin menghapus satuan
+          <h3 class="mb-6 mt-5 text-lg text-gray-500 dark:text-gray-400">Anda yakin ingin menghapus kategori
             {{ $category->name }} ?</h3>
           <form action="{{ route('categories.destroy', ['category' => $category->id]) }}" class="inline" method="POST">
             @method('DELETE')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\MaterialRequest;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -28,7 +29,13 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Invoice::create($request->all());
+
+        MaterialRequest::where('sent', false)
+            ->update(['sent' => true]);
+
+        return redirect(route('invoices.index'))
+            ->with('success', 'Request berhasil dikirim!');
     }
 
     /**

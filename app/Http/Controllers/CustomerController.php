@@ -10,20 +10,13 @@ class CustomerController extends Controller
     public function index()
     {
         return view('customers.customers', [
-            'customers' => Customer::all()
+            'customers' => Customer::simplePaginate(5),
         ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-            'phone' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'information' => ['required', 'string'],
-        ]);
-
-        Customer::create($validatedData);
+        Customer::create($request->all());
 
         return redirect(route('customers.index'))
             ->with('success', 'Pelanggan berhasil ditambahkan!');
@@ -31,14 +24,13 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-            'phone' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'information' => ['required', 'string'],
-        ]);
-
-        Customer::where('id', $customer->id)->update($validatedData);
+        Customer::where('id', $customer->id)
+            ->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'information' => $request->information,
+            ]);
 
         return redirect(route('customers.index'))
             ->with('success', 'Pelanggan berhasil diubah!');

@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('material_requests', function (Blueprint $table) {
             $table->id();
+            $table->string('user');
+            $table->string('request_type');
+            $table->string('customer');
+            $table->string('barcode');
             $table->string('name');
-            $table->integer('totalPrice');
-            $table->boolean('approved')->default(false);
+            $table->integer('price');
+            $table->integer('quantity');
+            $table->integer('total');
+            $table->boolean('sent')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('material_requests');
     }
 };

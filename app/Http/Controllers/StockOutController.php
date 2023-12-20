@@ -11,40 +11,44 @@ class StockOutController extends Controller
 {
     public function index()
     {
+        $stockouts = StockOut::where('product', 'like', '%' . request('search') . '%')
+            ->orWhere('barcode', 'like', '%' . request('search') . '%')
+            ->simplePaginate(5)
+            ->withQueryString();
+
         return view('stockouts.stockouts', [
-            'stockouts' => StockOut::all(),
+            'stockouts' => $stockouts,
             'customers' => Customer::all(),
         ]);
     }
 
     public function store(Request $request)
     {
-
         $product =  Product::firstWhere('barcode', $request->barcode);
 
-        $validatedData =  $request->validate([
-            'barcode' => ['required', 'string'],
-            'total' => ['required', 'integer'],
-            'customer' => ['required', 'string'],
-            'information' => ['required', 'string'],
-            'created_at' => ['required', 'date'],
+        StockOut::create([
+            'barcode' => $request->barcode,
+            'total' => $request->total,
+            'customer' => $request->customer,
+            'information' => $request->information,
+            'created_at' => $request->created_at,
+            'product' => $product->name,
         ]);
 
-        $validatedData['product'] = $product->name;
+        Product::where('barcode', $request->barcode)
+            ->update([
+                'stock' => $product->stock - $request->total
+            ]);
 
-        StockOut::create($validatedData);
-
-        Product::where('barcode', $request->barcode)->update([
-            'stock' => $product->stock - $request->total
-        ]);
-
-        return redirect(route('stockouts.index'))->with('success', 'Data berhasil ditambahkan!');
+        return redirect(route('stockouts.index'))
+            ->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function destroy(StockOut $stockout)
     {
         StockOut::destroy($stockout->id);
 
-        return redirect(route('stockouts.index'))->with('success', 'Data berhasil dihapus!');
+        return redirect(route('stockouts.index'))
+            ->with('success', 'Data berhasil dihapus!');
     }
 }

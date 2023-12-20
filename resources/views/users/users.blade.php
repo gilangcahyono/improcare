@@ -79,6 +79,21 @@
     <div class="overflow-x-auto">
       <div class="inline-block min-w-full align-middle">
         <div class="overflow-hidden shadow">
+          @if (session()->has('success'))
+            <div
+              class="mb-4 flex items-center rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-gray-800 dark:text-green-400"
+              role="alert">
+              <svg class="me-3 inline h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">{{ session('success') }}</span>
+              </div>
+            </div>
+          @endif
           <table class="min-w-full table-fixed divide-y divide-gray-200 dark:divide-gray-600">
             <thead class="bg-gray-100 dark:bg-gray-700">
               <tr>
@@ -90,6 +105,9 @@
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Nama
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  No. Tlp
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Hak Akses
@@ -115,19 +133,7 @@
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $user->phone }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                    @switch($user->role)
-                      @case(1)
-                        {{ 'Admin' }}
-                      @break
-
-                      @case(2)
-                        {{ 'Sales' }}
-                      @break
-
-                      @case(3)
-                        {{ 'Kasir' }}
-                      @break
-                    @endswitch
+                    {{ $user->role }}
                   </td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="edit-user-modal{{ $user->id }}"

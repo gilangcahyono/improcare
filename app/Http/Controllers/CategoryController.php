@@ -10,38 +10,33 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories.categories', [
-            'categories' => Category::all(),
+            'categories' => Category::simplePaginate(5),
         ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-        ]);
+        Category::create($request->all());
 
-        $validatedData['image'] = uniqid();
-
-        Category::create($validatedData);
-
-        return redirect(route('categories.index'))->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect(route('categories.index'))
+            ->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     public function update(Request $request, Category $category)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
+        Category::where('id', $category->id)->update([
+            'name' => $request->name
         ]);
 
-        Category::where('id', $category->id)->update($validatedData);
-
-        return redirect(route('categories.index'))->with('success', 'Kategori berhasil diubah!');
+        return redirect(route('categories.index'))
+            ->with('success', 'Kategori berhasil diubah!');
     }
 
     public function destroy(Category $category)
     {
         Category::destroy($category->id);
 
-        return redirect(route('categories.index'))->with('success', 'Kategori berhasil dihapus!');
+        return redirect(route('categories.index'))
+            ->with('success', 'Kategori berhasil dihapus!');
     }
 }

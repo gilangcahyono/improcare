@@ -3,7 +3,9 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MaterialRequestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockInController;
 use App\Http\Controllers\StockOutController;
@@ -26,6 +28,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn () => redirect('/dashboard'))
     ->name('home');
 
+Route::resource('/users', UserController::class)
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
+
 Route::get('/login', [LoginController::class, 'index'])
     ->name('login')
     ->middleware('guest');
@@ -41,25 +47,37 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth');
 
 Route::resource('/products', ProductController::class)
-    ->except(['create', 'show', 'edit']);
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
 
 Route::resource('/categories', CategoryController::class)
-    ->except(['create', 'show', 'edit']);
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
 
 Route::resource('/units', UnitController::class)
-    ->except(['create', 'show', 'edit']);
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
 
 Route::resource('/suppliers', SupplierController::class)
-    ->except(['create', 'show', 'edit']);
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
 
 Route::resource('/customers', CustomerController::class)
-    ->except(['create', 'show', 'edit']);
+    ->except(['create', 'show', 'edit'])
+    ->middleware('auth');
 
 Route::resource('/stockins', StockInController::class)
-    ->only(['index', 'store', 'destroy']);
+    ->only(['index', 'store', 'destroy'])
+    ->middleware('auth');
 
 Route::resource('/stockouts', StockOutController::class)
-    ->only(['index', 'store', 'destroy']);
+    ->only(['index', 'store', 'destroy'])
+    ->middleware('auth');
 
-Route::resource('/users', UserController::class)
-    ->except(['create', 'show', 'edit']);
+Route::resource('/materialrequests', MaterialRequestController::class)
+    ->only(['index', 'store', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('/invoices', InvoiceController::class)
+    ->only(['index', 'store', 'update'])
+    ->middleware('auth');

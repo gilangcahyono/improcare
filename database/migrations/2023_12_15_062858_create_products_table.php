@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('barcode')->unique();
             $table->string('name');
             $table->integer('price');
-            $table->integer('stock');
+            $table->integer('stock')->unsigned()->default(0);
             $table->string('category');
             $table->string('unit');
             $table->string('supplier');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

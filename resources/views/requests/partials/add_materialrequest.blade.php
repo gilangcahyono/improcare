@@ -1,4 +1,4 @@
-<!-- Add User Modal -->
+<!-- Add Request Product Modal -->
 <div
   class="fixed left-0 right-0 top-4 z-50 hidden h-modal items-center justify-center overflow-y-auto overflow-x-hidden sm:h-full md:inset-0"
   id="add-user-modal">
@@ -8,7 +8,7 @@
       <!-- Modal header -->
       <div class="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-700">
         <h3 class="text-xl font-semibold dark:text-white">
-          Tambah Pengguna
+          Tambah produk
         </h3>
         <button type="button"
           class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -22,59 +22,44 @@
       </div>
       <!-- Modal body -->
       <div class="space-y-6 p-6">
-        <form action="{{ route('users.store') }}" method="POST">
+        <form action="{{ route('materialrequests.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
-              <label for="name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nama
+              <label for="user" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Requested by
               </label>
-              <input type="text" name="name" id="name"
+              <input type="text" name="user" id="user" value="{{ auth()->user()->name }}"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan nama" required>
+                placeholder="Masukan nama" required readonly>
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <label for="username" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Username
+              <label for="barcode" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Barcode produk
               </label>
-              <input type="text" name="username" id="username"
+              <input type="text" name="barcode" id="barcode"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan username" required>
+                placeholder="Masukan barcode produk" required>
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <label for="phone" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                No. Tlp
-              </label>
-              <input type="tel" name="phone" id="phone"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan nomor telepon">
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label for="password" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                Password
-              </label>
-              <input type="password" name="password" id="password" minlength="6"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan password" required>
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label for="role" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Hak
-                Akses</label>
-              <select id="role" name="role"
+              <label for="customer" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Peminta</label>
+              <select id="customer" name="customer" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                <option selected disabled>Pilih Hak Akses</option>
-                <option value="Administrator">Administrator</option>
-                <option value="Operasional Manager">Operasional Manager</option>
-                <option value="Sales Manager">Sales Manager</option>
-                <option value="Service Operator">Service Operator</option>
+                <option selected disabled>Pilih Peminta</option>
+                @foreach ($customers as $customer)
+                  <option value="{{ $customer->name }}">{{ $customer->name }}</option>
+                  <option id="other">Other</option>
+                @endforeach
               </select>
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <label for="information"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Keterangan</label>
-              <textarea id="information" name="information" rows="4"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="Tulis keterangan disini..."></textarea>
+              <label for="quantity" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Jumlah
+              </label>
+              <input type="number" name="quantity" id="quantity"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                placeholder="Masukan jumlah" required>
             </div>
           </div>
+        </form>
       </div>
       <!-- Modal footer -->
       <div class="items-center rounded-b border-t border-gray-200 p-6 dark:border-gray-700">

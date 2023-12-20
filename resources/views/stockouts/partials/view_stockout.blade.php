@@ -38,8 +38,8 @@
               <td class="px-6 py-3">: {{ $stockout->total }}</td>
             </tr>
             <tr>
-              <th class="text-left">Pemasok</th>
-              <td class="px-6 py-3">: {{ $stockout->supplier }}</td>
+              <th class="text-left">Pelanggan</th>
+              <td class="px-6 py-3">: {{ $stockout->customer }}</td>
             </tr>
             <tr>
               <th class="text-left">Keterangan</th>

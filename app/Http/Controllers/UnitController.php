@@ -10,38 +10,34 @@ class UnitController extends Controller
     public function index()
     {
         return view('units.units', [
-            'units' => Unit::all()
+            'units' => Unit::simplePaginate(5),
         ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-        ]);
+        Unit::create($request->all());
 
-        $validatedData['image'] = uniqid();
-
-        Unit::create($validatedData);
-
-        return redirect(route('units.index'))->with('success', 'Satuan berhasil ditambahkan!');
+        return redirect(route('units.index'))
+            ->with('success', 'Satuan berhasil ditambahkan!');
     }
 
     public function update(Request $request, Unit $unit)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-        ]);
+        Unit::where('id', $unit->id)
+            ->update([
+                'name' => $request->name,
+            ]);
 
-        Unit::where('id', $unit->id)->update($validatedData);
-
-        return redirect(route('units.index'))->with('success', 'Satuan berhasil diubah!');
+        return redirect(route('units.index'))
+            ->with('success', 'Satuan berhasil diubah!');
     }
 
     public function destroy(Unit $unit)
     {
         Unit::destroy($unit->id);
 
-        return redirect(route('units.index'))->with('success', 'Satuan berhasil dihapus!');
+        return redirect(route('units.index'))
+            ->with('success', 'Satuan berhasil dihapus!');
     }
 }

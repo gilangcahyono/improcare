@@ -16,15 +16,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // $validatedData =  $request->validate([
-        //     'name' => ['required', 'string'],
-        //     'username' => ['required', 'string'],
-        //     'password' => ['required', 'string', 'min:6'],
-        //     'phone' => ['required', 'string'],
-        //     'address' => ['required', 'string'],
-        //     'role' => ['required', 'string'],
-        // ]);
-
         $data = $request->all();
 
         $data['password'] = bcrypt($request->password);
@@ -37,24 +28,24 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string'],
-            'username' => ['required', 'string'],
-            'phone' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'role' => ['required', 'string'],
-        ]);
+        $data = [
+            'name' => $request->name,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'role' => $request->role
+        ];
 
         if ($request->password) {
-            $validatedData['password'] = bcrypt($request->password);
+            $data['password'] = bcrypt($request->password);
         } else {
-            $validatedData['password'] = $request->oldPassword;
+            $data['password'] = $request->oldPassword;
         }
 
-        User::where('id', $user->id)->update($validatedData);
+        User::where('id', $user->id)->update($data);
 
         return redirect(route('users.index'))
-            ->with('success', 'Pengguna berhasil ditambahkan!');
+            ->with('success', 'Pengguna berhasil diubah!');
     }
 
     public function destroy(User $user)

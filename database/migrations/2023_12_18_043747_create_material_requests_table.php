@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('material_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('invoice_id')->nullable();
             $table->string('user');
             $table->string('request_type');
             $table->string('customer');

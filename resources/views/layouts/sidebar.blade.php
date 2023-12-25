@@ -128,12 +128,12 @@
               Material Request</a>
           </li>
           <li>
-            <a href="{{ '#' }}"
+            <a href="{{ route('invoices.show', ['invoice' => 'approval']) }}"
               class="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700">🔘
               Approval</a>
           </li>
           <li>
-            <a href="{{ '#' }}"
+            <a href="{{ route('invoices.show', ['invoice' => 'history']) }}"
               class="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700">🔘
               Riwayat</a>
           </li>

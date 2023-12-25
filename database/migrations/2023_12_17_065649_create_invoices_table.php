@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->integer('totalPrice');
             $table->boolean('approved')->default(false);
+            $table->boolean('done')->default(false);
             $table->timestamps();
         });
     }

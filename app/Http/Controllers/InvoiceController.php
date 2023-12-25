@@ -8,65 +8,51 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         Invoice::create($request->all());
 
         MaterialRequest::where('sent', false)
-            ->update(['sent' => true]);
+            ->update([
+                'sent' => true,
+                'invoice_id' => Invoice::latest()->first()->id,
+            ]);
 
-        return redirect(route('invoices.index'))
+        return redirect(route('materialrequests.index'))
             ->with('success', 'Request berhasil dikirim!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Invoice $invoice)
+    public function show(string $invoice)
     {
-        //
+        if ($invoice === 'approval') {
+            return view('invoices.approval', [
+                'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                    ->where('approved', false)
+                    ->where('done', false)
+                    ->with('materialrequests')
+                    ->simplePaginate(5),
+            ]);
+        }
+
+        if ($invoice === 'history') {
+            return view('invoices.history', [
+                'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                    ->where('done', true)
+                    ->with('materialrequests')
+                    ->simplePaginate(5),
+            ]);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Invoice $invoice)
     {
-        //
-    }
+        $data = [
+            'approved' => !$request->approved ? false : $request->approved,
+            'done' => $request->done,
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Invoice $invoice)
-    {
-        //
+        Invoice::where('id', $invoice->id)->update($data);
+
+        return redirect(route('invoices.show', ['invoice' => 'approval']));
     }
 }

@@ -14,7 +14,7 @@
           </svg>
         </button>
         <a href="{{ route('dashboard') }}" class="ms-2 flex md:me-24">
-          <img src="assets/images/logo.png" class="me-3 h-8" alt="FlowBite Logo" />
+          <img src="{{ url('assets/images/logo.png') }}" class="me-3 h-8" alt="FlowBite Logo" />
           <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white sm:text-2xl">Improcare</span>
         </a>
       </div>

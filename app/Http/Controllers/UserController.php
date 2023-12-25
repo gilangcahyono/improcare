@@ -32,7 +32,7 @@ class UserController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'phone' => $request->phone,
-            'address' => $request->address,
+            'information' => $request->information,
             'role' => $request->role
         ];
 

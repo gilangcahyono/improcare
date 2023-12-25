@@ -150,7 +150,7 @@
                 @csrf
                 <input type="hidden" name="totalPrice" id="totalPrice" name="totalPrice" required
                   value="{{ $total }}">
-                <input type="hidden" name="name" value="{{ 'IVN' . fake()->ean13() }}">
+                <input type="hidden" name="name" value="{{ 'INV' . fake()->ean13() }}">
                 <tr>
                   <th>Total</th>
                   <th colspan="5"
@@ -173,7 +173,7 @@
 
   @include('requests.partials.delete_materialrequest')
 
-  <script>
+  {{-- <script>
     function changeCustomer(e) {
       console.log(e);
       if (e.value === 'Other') {
@@ -182,5 +182,5 @@
         input.type = 'text';
       }
     }
-  </script>
+  </script> --}}
 @endsection

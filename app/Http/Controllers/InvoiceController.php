@@ -24,23 +24,28 @@ class InvoiceController extends Controller
 
     public function show(string $invoice)
     {
-        if ($invoice === 'approval') {
-            return view('invoices.approval', [
-                'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
-                    ->where('approved', false)
-                    ->where('done', false)
-                    ->with('materialrequests')
-                    ->simplePaginate(5),
-            ]);
-        }
 
-        if ($invoice === 'history') {
-            return view('invoices.history', [
-                'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
-                    ->where('done', true)
-                    ->with('materialrequests')
-                    ->simplePaginate(5),
-            ]);
+        switch ($invoice) {
+            case 'approval':
+                return view('invoices.approval', [
+                    'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                        ->where('approved', false)
+                        ->where('done', false)
+                        ->with('materialrequests')
+                        ->simplePaginate(5),
+                ]);
+                break;
+            case 'history':
+                return view('invoices.history', [
+                    'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                        ->where('done', true)
+                        ->with('materialrequests')
+                        ->simplePaginate(5),
+                ]);
+                break;
+            default:
+                return abort(404);
+                break;
         }
     }
 

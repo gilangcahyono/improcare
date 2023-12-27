@@ -14,7 +14,8 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products = Product::where('name', 'like', '%' . request('search') . '%')
+        $products = Product::latest()
+            ->where('name', 'like', '%' . request('search') . '%')
             ->orWhere('barcode', 'like', '%' . request('search') . '%')
             ->simplePaginate(5)
             ->withQueryString();

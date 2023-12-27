@@ -29,7 +29,7 @@
               <th class="text-left">Barcode</th>
               <td class="px-6 py-3">: {{ $product->barcode }}</td>
               <td class="max-w-sm align-top" rowspan="7">
-                <img class="h-56 w-56 object-cover hover:object-contain" src="{{ 'storage/' . $product->image }}"
+                <img class="h-56 w-56 object-cover hover:object-contain" src="{{ url('storage/' . $product->image) }}"
                   alt="{{ $product->name }}">
               </td>
             </tr>

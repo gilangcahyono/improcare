@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+    public function index()
+    {
+        return Invoice::where('name', 'like', '%' . request('search') . '%')
+            ->where('approved', false)
+            ->where('done', false)
+            ->with('materialrequests')
+            ->get();
+    }
+
     public function store(Request $request)
     {
         Invoice::create($request->all());
@@ -24,7 +33,6 @@ class InvoiceController extends Controller
 
     public function show(string $invoice)
     {
-
         switch ($invoice) {
             case 'approval':
                 return view('invoices.approval', [

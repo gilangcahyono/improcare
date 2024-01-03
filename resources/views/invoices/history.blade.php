@@ -80,9 +80,7 @@
 
   {{ $invoices->links() }}
 
-  {{-- @include('invoices.partials.edit_invoice') --}}
-
-  {{-- @include('invoices.partials.add_invoice') --}}
+  @include('invoices.partials.view_invoice')
 
   @include('invoices.partials.accept_invoice')
 

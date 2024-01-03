@@ -118,14 +118,11 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-              @php
-                $no = 1;
-              @endphp
               @foreach ($suppliers as $supplier)
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                   <td
                     class="max-w-sm overflow-hidden truncate p-4 text-base font-normal text-gray-800 dark:text-gray-400 xl:max-w-xs">
-                    {{ $no++ }}</td>
+                    {{ $loop->iteration + ($suppliers->currentPage() - 1) * $suppliers->perPage() }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $supplier->name }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">

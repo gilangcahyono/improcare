@@ -105,7 +105,7 @@
                   Jumlah
                 </th>
                 <th scope="col" class="p-4 text-end text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
-                  Total
+                  Sub Total
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Aksi

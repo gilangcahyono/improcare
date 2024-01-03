@@ -79,5 +79,5 @@ Route::resource('/materialrequests', MaterialRequestController::class)
     ->middleware('auth');
 
 Route::resource('/invoices', InvoiceController::class)
-    ->only(['show', 'store', 'update'])
+    ->only(['index', 'show', 'store', 'update'])
     ->middleware('auth');

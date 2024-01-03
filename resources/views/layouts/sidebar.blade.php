@@ -107,10 +107,10 @@
       </li>
       <li>
         <button type="button"
-          class="{{ Request::is('materialrequests*') ? 'active' : '' }} group flex w-full items-center rounded-lg p-2 text-base text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700"
+          class="{{ Request::is('materialrequests') || Request::is('invoices*') ? 'active' : '' }} group flex w-full items-center rounded-lg p-2 text-base text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700"
           aria-controls="dropdown-material" data-collapse-toggle="dropdown-material">
           <svg
-            class="{{ Request::is('materialrequests*') ? 'active' : '' }} h-5 w-5 text-gray-300 group-hover:text-gray-900 dark:text-gray-400"
+            class="{{ Request::is('materialrequests') || Request::is('invoices*') ? 'active' : '' }} h-5 w-5 text-gray-300 group-hover:text-gray-900 dark:text-gray-400"
             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
             <path
               d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM5 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm10 6H9a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />

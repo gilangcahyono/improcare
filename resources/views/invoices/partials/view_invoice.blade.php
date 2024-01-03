@@ -27,6 +27,11 @@
           <table class="w-full">
             <thead>
               <tr>
+                <th class="text-left">Jenis Permintaan</th>
+                <td class="px-6 py-3">:
+                  {{ $invoice->materialrequests[count($invoice->materialrequests) - 1]->request_type }}</td>
+              </tr>
+              <tr>
                 <th class="text-left">Tanggal</th>
                 <td class="px-6 py-3">: {{ $invoice->created_at }}</td>
               </tr>

@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    public function index()
-    {
-        return Invoice::where('name', 'like', '%' . request('search') . '%')
-            ->where('approved', false)
-            ->where('done', false)
-            ->with('materialrequests')
-            ->get();
-    }
+    // public function index()
+    // {
+    //     return Invoice::where('name', 'like', '%' . request('search') . '%')
+    //         ->where('approved', false)
+    //         ->where('done', false)
+    //         ->with('materialrequests')
+    //         ->get();
+    // }
 
     public function store(Request $request)
     {

@@ -30,7 +30,7 @@ Route::get('/', fn () => redirect('/dashboard'))
 
 Route::resource('/users', UserController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::get('/login', [LoginController::class, 'index'])
     ->name('login')
@@ -40,7 +40,8 @@ Route::post('/login', [LoginController::class, 'authenticate'])
     ->name('autenticate');
 
 Route::post('/logout', [LoginController::class, 'logout'])
-    ->name('logout');
+    ->name('logout')
+    ->middleware('auth');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
@@ -48,36 +49,36 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::resource('/products', ProductController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/categories', CategoryController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/units', UnitController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/suppliers', SupplierController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/customers', CustomerController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/stockins', StockInController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/stockouts', StockOutController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/materialrequests', MaterialRequestController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
+    ->middleware('admin');
 
 Route::resource('/invoices', InvoiceController::class)
-    ->only(['index', 'show', 'store', 'update'])
-    ->middleware('auth');
+    ->only(['show', 'store', 'update'])
+    ->middleware('admin');

@@ -55,8 +55,8 @@
                 <tr>
                   <td class="px-6 py-3 text-left">{{ $materialrequest->name }}</td>
                   <td class="px-6 py-3 text-center">{{ $materialrequest->quantity }} x </td>
-                  <td class="px-6 py-3 text-center">{{ number_format($materialrequest->price, 0, ',', '.') }}</td>
-                  <td class="px-6 py-3 text-center">{{ number_format($materialrequest->total, 0, ',', '.') }}</td>
+                  <td class="px-6 py-3 text-end">{{ number_format($materialrequest->price, 0, ',', '.') }}</td>
+                  <td class="px-6 py-3 text-end">{{ number_format($materialrequest->total, 0, ',', '.') }}</td>
                 </tr>
               @endforeach
             </tbody>

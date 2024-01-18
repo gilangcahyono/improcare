@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('totalPrice');
+            $table->string('approvedBy')->nullable(true);
             $table->boolean('approved')->default(false);
             $table->boolean('done')->default(false);
             $table->timestamps();

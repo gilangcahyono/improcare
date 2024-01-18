@@ -33,10 +33,16 @@
                   No
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Kode
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Nama
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Tanggal
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Jenis
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Aksi
@@ -52,7 +58,13 @@
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $invoice->name }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    {{ $invoice->materialrequests[0]->user }}
+                  </td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $invoice->created_at }}</td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    {{ $invoice->materialrequests[0]->request_type }}
+                  </td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="view-invoice-modal{{ $invoice->id }}"
                       data-modal-toggle="view-invoice-modal{{ $invoice->id }}"

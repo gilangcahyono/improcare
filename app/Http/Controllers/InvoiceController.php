@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\MaterialRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class InvoiceController extends Controller
 {
@@ -19,6 +20,11 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
+
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+            return abort(403);
+        }
+
         Invoice::create($request->all());
 
         MaterialRequest::where('sent', false)
@@ -35,8 +41,13 @@ class InvoiceController extends Controller
     {
         switch ($invoice) {
             case 'approval':
+                // $this->authorize('operational-manager');
+                if (!Gate::any(['admin', 'operational-manager'])) {
+                    return abort(403);
+                }
                 return view('invoices.approval', [
-                    'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                    'invoices' => Invoice::latest()
+                        ->where('name', 'like', '%' . request('search') . '%')
                         ->where('approved', false)
                         ->where('done', false)
                         ->with('materialrequests')
@@ -44,8 +55,14 @@ class InvoiceController extends Controller
                 ]);
                 break;
             case 'history':
+
+                if (!Gate::any(['admin', 'operational-manager', 'sales-manager', 'service-operator'])) {
+                    return abort(403);
+                }
+
                 return view('invoices.history', [
-                    'invoices' => Invoice::where('name', 'like', '%' . request('search') . '%')
+                    'invoices' => Invoice::latest()
+                        ->where('name', 'like', '%' . request('search') . '%')
                         ->where('done', true)
                         ->with('materialrequests')
                         ->simplePaginate(5),
@@ -59,8 +76,13 @@ class InvoiceController extends Controller
 
     public function update(Request $request, Invoice $invoice)
     {
+        if (!Gate::any(['admin', 'operational-manager'])) {
+            return abort(403);
+        }
+
         $data = [
             'approved' => !$request->approved ? false : $request->approved,
+            'approvedBy' => auth()->user()->name,
             'done' => $request->done,
         ];
 

@@ -34,18 +34,18 @@
                 required>
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <label for="barcode" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                Barcode
+              <label for="productName" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Produk
               </label>
-              <input type="text" name="barcode" id="barcode"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan barcode" required>
+              <input type="text" name="productName" id="productName"
+                class="typeahead auto-select block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                placeholder="Masukan nama produk" required>
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="total" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                 Jumlah
               </label>
-              <input type="number" name="total" id="total" min="0"
+              <input type="number" name="total" id="total" min="1"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 placeholder="Masukan Jumlah" required>
             </div>
@@ -54,7 +54,6 @@
                 class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Pelanggan</label>
               <select id="customer" name="customer"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                <option selected disabled>Pilih Pelanggan</option>
                 @foreach ($customers as $customer)
                   <option value="{{ $customer->name }}">{{ $customer->name }}</option>
                 @endforeach
@@ -79,3 +78,16 @@
     </div>
   </div>
 </div>
+
+{{-- <script>
+  const productName = document.getElementById('productName');
+  const pathAutoStock = `{{ url('products') }}`;
+  productName.addEventListener('blur', (e) => {
+    fetch(pathAutoStock + `/${e.target.value}`)
+      .then(res => res.json())
+      .then(data => {
+        const total = document.getElementById('total');
+        total.setAttribute('max', data[0].stock);
+      })
+  })
+</script> --}}

@@ -49,6 +49,10 @@
                   {{ $invoice->materialrequests[count($invoice->materialrequests) - 1]->customer }}
                 </td>
               </tr>
+              <tr>
+                <th class="text-left">Approve/Tolak oleh</th>
+                <td class="px-6 py-3">: {{ $invoice->approvedBy }}</td>
+              </tr>
             </thead>
             <tbody>
               @foreach ($invoice->materialrequests as $materialrequest)

@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\MaterialRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MaterialRequestController extends Controller
 {
@@ -14,6 +15,10 @@ class MaterialRequestController extends Controller
      */
     public function index()
     {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+            return abort(403);
+        }
+
         return view('requests.materialrequests', [
             'materialrequests' => MaterialRequest::where('sent', false)->get(),
             'customers' => Customer::all(),
@@ -21,25 +26,25 @@ class MaterialRequestController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $product = Product::where('barcode', $request->barcode)->first();
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+            return abort(403);
+        }
+
+        $product = Product::where('name', $request->productName)->first();
+
+        if ($request->quantity > $product->stock) {
+            return back()->with('overQty', "Maksimal jumlah $product->stock");
+        }
 
         MaterialRequest::create([
             'request_type' => $request->requestType,
             'user' => $request->user,
             'customer' => $request->customer,
-            'barcode' => $request->barcode,
+            'barcode' => $product->barcode,
             'name' => $product->name,
             'price' => $product->price,
             'quantity' => $request->quantity,
@@ -51,34 +56,14 @@ class MaterialRequestController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(MaterialRequest $materialRequests)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MaterialRequest $materialRequests)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MaterialRequest $materialRequests)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(MaterialRequest $materialrequest)
     {
+        if (!Gate::any(['admin', 'sales-manager'])) {
+            return abort(403);
+        }
+
         MaterialRequest::destroy($materialrequest->id);
 
         return redirect(route('materialrequests.index'))

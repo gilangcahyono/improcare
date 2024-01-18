@@ -7,13 +7,13 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index()
     {
-
         $products = Product::latest()
             ->where('name', 'like', '%' . request('search') . '%')
             ->orWhere('barcode', 'like', '%' . request('search') . '%')
@@ -26,6 +26,19 @@ class ProductController extends Controller
             'units' => Unit::all(),
             'suppliers' => Supplier::all(),
         ]);
+    }
+
+    public function show(string $product)
+    {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+            return abort(403);
+        }
+
+        return response()->json(
+            Product::select('stock')
+                ->where('name', '=', $product)
+                ->get()
+        );
     }
 
     public function store(Request $request)
@@ -74,5 +87,18 @@ class ProductController extends Controller
 
         return redirect(route('products.index'))
             ->with('success', 'Produk berhasil dihapus!');
+    }
+
+    public function autocomplete(Request $request)
+    {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+            return abort(403);
+        }
+
+        $products = Product::select('name')
+            ->where('name', 'like', '%' . $request['query'] . '%')
+            ->get();
+
+        return response()->json($products);
     }
 }

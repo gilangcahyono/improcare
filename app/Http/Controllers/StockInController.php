@@ -24,10 +24,11 @@ class StockInController extends Controller
 
     public function store(Request $request)
     {
-        $product =  Product::firstWhere('barcode', $request->barcode);
+        $product =  Product::firstWhere('name', $request->productName);
+        // return $product;
 
         StockIn::create([
-            'barcode' => $request->barcode,
+            'barcode' => $product->barcode,
             'total' => $request->total,
             'supplier' => $request->supplier,
             'information' => $request->information,
@@ -35,7 +36,7 @@ class StockInController extends Controller
             'product' => $product->name
         ]);
 
-        Product::where('barcode', $request->barcode)
+        Product::where('barcode', $product->barcode)
             ->update([
                 'stock' => $product->stock + $request->total
             ]);

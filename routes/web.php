@@ -30,7 +30,7 @@ Route::get('/', fn () => redirect('/dashboard'))
 
 Route::resource('/users', UserController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::get('/login', [LoginController::class, 'index'])
     ->name('login')
@@ -48,37 +48,41 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth');
 
 Route::resource('/products', ProductController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->except(['create', 'edit'])
+    ->middleware('auth');
+
+Route::get('/inputproduct', [ProductController::class, 'autocomplete'])
+    ->name('inputproduct')
+    ->middleware('auth');
 
 Route::resource('/categories', CategoryController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/units', UnitController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/suppliers', SupplierController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/customers', CustomerController::class)
     ->except(['create', 'show', 'edit'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/stockins', StockInController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/stockouts', StockOutController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/materialrequests', MaterialRequestController::class)
     ->only(['index', 'store', 'destroy'])
-    ->middleware('admin');
+    ->middleware('auth');
 
 Route::resource('/invoices', InvoiceController::class)
     ->only(['show', 'store', 'update'])
-    ->middleware('admin');
+    ->middleware('auth');

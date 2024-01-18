@@ -24,10 +24,14 @@ class StockOutController extends Controller
 
     public function store(Request $request)
     {
-        $product =  Product::firstWhere('barcode', $request->barcode);
+        $product =  Product::firstWhere('name', $request->productName);
+
+        if ($request->total > $product->stock) {
+            return back()->with('overQty', "Maksimal jumlah $product->stock");
+        }
 
         StockOut::create([
-            'barcode' => $request->barcode,
+            'barcode' => $product->barcode,
             'total' => $request->total,
             'customer' => $request->customer,
             'information' => $request->information,
@@ -35,7 +39,7 @@ class StockOutController extends Controller
             'product' => $product->name,
         ]);
 
-        Product::where('barcode', $request->barcode)
+        Product::where('barcode', $product->barcode)
             ->update([
                 'stock' => $product->stock - $request->total
             ]);

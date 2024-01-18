@@ -23,35 +23,35 @@
                 Permintaan</label>
               <select id="requestType" name="requestType" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                <option selected disabled>Pilih Jenis</option>
                 <option value="Work Order">Work Order</option>
                 <option value="Material Request">Material Request</option>
               </select>
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="barcode" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                Barcode produk
+                Nama produk
               </label>
-              <input type="text" name="barcode" id="barcode"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan barcode produk" required>
+              <input type="text" name="productName" id="productName"
+                class="typeahead block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                placeholder="Masukan nama produk" required autocomplete="off">
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="quantity" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Jumlah
               </label>
-              <input type="number" name="quantity" id="quantity"
+              <input type="number" name="quantity" id="total" min="1"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 placeholder="Masukan jumlah" required>
+              @if (session()->has('overQty'))
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ session('overQty') }}</p>
+              @endif
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="customer" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Peminta</label>
-              <select id="customer" name="customer" required onchange="changeCustomer(this)"
+              <select id="customer" name="customer" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                <option selected disabled>Pilih Peminta</option>
                 @foreach ($customers as $customer)
                   <option value="{{ $customer->name }}">{{ $customer->name }}</option>
                 @endforeach
-                <option value="Other">Other</option>
               </select>
             </div>
             <div class="col-span-6 sm:col-span-3 sm:flex">
@@ -172,15 +172,4 @@
   </div>
 
   @include('requests.partials.delete_materialrequest')
-
-  {{-- <script>
-    function changeCustomer(e) {
-      console.log(e);
-      if (e.value === 'Other') {
-        e.remove();
-        const input = document.createElement('input');
-        input.type = 'text';
-      }
-    }
-  </script> --}}
 @endsection

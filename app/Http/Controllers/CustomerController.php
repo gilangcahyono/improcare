@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
     public function index()
     {
+        if (!Gate::any(['admin', 'sales-manager'])) {
+            return abort(403);
+        }
+
         return view('customers.customers', [
             'customers' => Customer::simplePaginate(5),
         ]);
@@ -16,6 +21,10 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+        if (!Gate::any(['admin', 'sales-manager'])) {
+            return abort(403);
+        }
+
         Customer::create($request->all());
 
         return redirect(route('customers.index'))
@@ -24,6 +33,10 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
+        if (!Gate::any(['admin', 'sales-manager'])) {
+            return abort(403);
+        }
+
         Customer::where('id', $customer->id)
             ->update([
                 'name' => $request->name,
@@ -38,6 +51,10 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
+        if (!Gate::any(['admin', 'sales-manager'])) {
+            return abort(403);
+        }
+
         Customer::destroy($customer->id);
 
         return redirect(route('customers.index'))

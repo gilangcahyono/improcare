@@ -33,10 +33,19 @@
                   No
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Kode
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Nama
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Tanggal
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Jenis
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Status
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Aksi
@@ -54,7 +63,35 @@
                     {{ $invoice->name }}
                   </td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    {{ $invoice->materialrequests[0]->user }}
+                  </td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $invoice->created_at }}
+                  </td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    {{ $invoice->materialrequests[0]->request_type }}
+                  </td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    @if ($invoice->approved)
+                      <button type="button"
+                        class="inline-flex items-center rounded-lg bg-blue-600 px-3 py-2 text-center text-sm font-medium text-white"
+                        disabled>
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                          <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                        </svg>
+                      </button>
+                    @else
+                      <button type="button" disabled
+                        class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-center text-sm font-medium text-white">
+                        <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                          viewBox="0 0 20 20">
+                          <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+                        </svg>
+                      </button>
+                    @endif
                   </td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="view-invoice-modal{{ $invoice->id }}"

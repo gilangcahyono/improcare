@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('approvedBy')->nullable(true);
             $table->boolean('approved')->default(false);
             $table->boolean('done')->default(false);
+            $table->boolean('sent')->default(false);
             $table->timestamps();
         });
     }

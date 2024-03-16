@@ -38,28 +38,28 @@ class DatabaseSeeder extends Seeder
             'phone' => fake()->phoneNumber(),
         ]);
 
-        // User::factory()->create([
-        //     'name' => fake()->name(),
-        //     'username' => fake()->userName(),
-        //     'password' => bcrypt('123456'),
-        //     'role' => 'Operasional Manager',
-        //     'phone' => fake()->phoneNumber(),
-        // ]);
+        User::factory()->create([
+            'name' => fake()->name(),
+            'username' => fake()->userName(),
+            'password' => bcrypt('123456'),
+            'role' => 'Operasional Manager',
+            'phone' => fake()->phoneNumber(),
+        ]);
 
-        // User::factory()->create([
-        //     'name' => fake()->name(),
-        //     'username' => fake()->userName(),
-        //     'password' => bcrypt('123456'),
-        //     'role' => 'Sales Manager',
-        //     'phone' => fake()->phoneNumber(),
-        // ]);
+        User::factory()->create([
+            'name' => fake()->name(),
+            'username' => fake()->userName(),
+            'password' => bcrypt('123456'),
+            'role' => 'Sales Manager',
+            'phone' => fake()->phoneNumber(),
+        ]);
 
-        // User::factory()->create([
-        //     'name' => fake()->name(),
-        //     'username' => fake()->userName(),
-        //     'password' => bcrypt('123456'),
-        //     'role' => 'Service Operator',
-        //     'phone' => fake()->phoneNumber(),
-        // ]);
+        User::factory()->create([
+            'name' => fake()->name(),
+            'username' => fake()->userName(),
+            'password' => bcrypt('123456'),
+            'role' => 'Service Operator',
+            'phone' => fake()->phoneNumber(),
+        ]);
     }
 }

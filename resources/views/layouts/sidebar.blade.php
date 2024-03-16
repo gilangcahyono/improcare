@@ -30,7 +30,7 @@
           </a>
         </li>
       @endcanany
-      @canany(['admin', 'sales-manager'])
+      @can(['admin'])
         <li>
           <a href="{{ route('customers.index') }}"
             class="{{ request()->is('customers') ? 'active' : '' }} group flex items-center rounded-lg p-2 text-gray-300 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700">
@@ -45,7 +45,7 @@
             <span class="ms-3 flex-1 whitespace-nowrap">Pelanggan</span>
           </a>
         </li>
-      @endcanany
+      @endcan
       @canany(['admin'])
         <li>
           <button type="button"

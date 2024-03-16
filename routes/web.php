@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard', 301)->name('home');
+Route::get('/', fn () => to_route('dashboard'))->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::resources(

@@ -10,7 +10,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        if (!Gate::any(['admin', 'sales-manager'])) {
+        if (!Gate::allows(['admin'])) {
             return abort(403);
         }
 
@@ -21,7 +21,7 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        if (!Gate::any(['admin', 'sales-manager'])) {
+        if (!Gate::allows(['admin'])) {
             return abort(403);
         }
 
@@ -33,7 +33,7 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
-        if (!Gate::any(['admin', 'sales-manager'])) {
+        if (!Gate::allows(['admin'])) {
             return abort(403);
         }
 
@@ -51,7 +51,7 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
-        if (!Gate::any(['admin', 'sales-manager'])) {
+        if (!Gate::allows(['admin'])) {
             return abort(403);
         }
 

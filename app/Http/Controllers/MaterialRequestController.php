@@ -38,7 +38,9 @@ class MaterialRequestController extends Controller
         $product = Product::where('name', $request->productName)->first();
 
         if ($request->quantity > $product->stock) {
-            return back()->with('overQty', "Maksimal jumlah $product->stock");
+            return back()->with('requestType', $request->requestType)
+                ->with('customer', $request->customer)
+                ->with('overQty', "Maksimal jumlah $product->stock");
         }
 
         MaterialRequest::create([

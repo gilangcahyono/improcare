@@ -23,8 +23,18 @@
                 Permintaan</label>
               <select id="requestType" name="requestType" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                <option value="Work Order">Work Order</option>
-                <option value="Material Request">Material Request</option>
+                <option value="" selected disabled>Pilih Jenis Permintaan</option>
+                </option>
+                @if (session()->has('requestType'))
+                  <option value="{{ session('requestType') }}" selected>{{ session('requestType') }}</option>
+                @endif
+                <option value="Material Request">
+                  Material Request</option>
+                <option value="Work Order">
+                  Work Order
+                </option>
+                <option value="Purchase List">
+                  Purchase List</option>
               </select>
             </div>
             <div class="col-span-6 sm:col-span-3">
@@ -32,8 +42,13 @@
                 Nama produk
               </label>
               <input type="text" name="productName" id="productName"
-                class="typeahead block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan nama produk" required autocomplete="off">
+                class="typeaheada block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                placeholder="Masukan nama produk" required autocomplete="off" list="products">
+              <datalist id="products">
+                @foreach ($products as $product)
+                  <option value="{{ $product->name }}">{{ $product->name }}</option>
+                @endforeach
+              </datalist>
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="quantity" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Jumlah
@@ -49,6 +64,11 @@
               <label for="customer" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Peminta</label>
               <select id="customer" name="customer" required
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                <option value="" selected disabled>Pilih Peminta</option>
+                @if (session()->has('customer'))
+                  <option value="{{ session('customer') }}" selected>{{ session('customer') }}
+                  </option>
+                @endif
                 @foreach ($customers as $customer)
                   <option value="{{ $customer->name }}">{{ $customer->name }}</option>
                 @endforeach
@@ -158,7 +178,7 @@
                     {{ number_format($total, 0, ',', '.') }}</th>
                 </tr>
                 <tr>
-                  <td colspan="7" class="px-4"><button type="summit"
+                  <td colspan="7" class="px-4"><button type="submit"
                       class="mb-2 me-2 w-full rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                       Request</button>
                   </td>

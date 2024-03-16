@@ -130,7 +130,7 @@
           </svg>
         </button>
         <ul id="dropdown-material" class="hidden space-y-2 py-2">
-          @canany(['admin', 'sales-manager', 'service-operator'])
+          @canany(['admin', 'sales-manager', 'service-operator', 'operational-manager', 'service-supervisor'])
             <li>
               <a href="{{ route('materialrequests.index') }}"
                 class="{{ Request::is('materialrequests*') ? 'active' : '' }} group flex w-full items-center rounded-lg p-2 pl-11 text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700">🔘
@@ -144,7 +144,7 @@
                 Approval</a>
             </li>
           @endcanany
-          @canany(['admin', 'sales-manager', 'operational-manager', 'service-operator'])
+          @canany(['admin', 'sales-manager', 'operational-manager', 'service-operator', 'service-supervisor'])
             <li>
               <a href="{{ route('invoices.show', ['invoice' => 'history']) }}"
                 class="{{ Request::is('*history') ? 'active' : '' }} group flex w-full items-center rounded-lg p-2 pl-11 text-gray-300 transition duration-75 hover:bg-gray-100 hover:text-gray-800 dark:text-white dark:hover:bg-gray-700">🔘

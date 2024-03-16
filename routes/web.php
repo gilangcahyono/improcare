@@ -25,64 +25,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn () => redirect('/dashboard'))
-    ->name('home');
+Route::redirect('/', '/dashboard', 301)->name('home');
 
-Route::resource('/users', UserController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::resources(
+        [
+            'users' => UserController::class,
+            'categories' => CategoryController::class,
+            'units' => UnitController::class,
+            'suppliers' => SupplierController::class,
+            'customers' => CustomerController::class,
+        ],
+        ['except' => ['create', 'show', 'edit']]
+    );
+    Route::resources(
+        [
+            'stockins' => StockInController::class,
+            'stockouts' => StockOutController::class,
+            'materialrequests' => MaterialRequestController::class,
+        ],
+        ['only' => ['index', 'store', 'destroy']]
+    );
+    Route::resource('/invoices', InvoiceController::class)->except(['index', 'create', 'edit']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/products', ProductController::class)->except(['create', 'edit']);
+    Route::get('/printproduct', [ProductController::class, 'print'])->name('products.print');
+    Route::get('/printstokcouts/{name}', [StockOutController::class, 'print'])->name('stockouts.print');
+});
 
-Route::get('/login', [LoginController::class, 'index'])
-    ->name('login')
-    ->middleware('guest');
-
-Route::post('/login', [LoginController::class, 'authenticate'])
-    ->name('autenticate');
-
-Route::post('/logout', [LoginController::class, 'logout'])
-    ->name('logout')
-    ->middleware('auth');
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard')
-    ->middleware('auth');
-
-Route::resource('/products', ProductController::class)
-    ->except(['create', 'edit'])
-    ->middleware('auth');
-
-Route::get('/inputproduct', [ProductController::class, 'autocomplete'])
-    ->name('inputproduct')
-    ->middleware('auth');
-
-Route::resource('/categories', CategoryController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
-
-Route::resource('/units', UnitController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
-
-Route::resource('/suppliers', SupplierController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
-
-Route::resource('/customers', CustomerController::class)
-    ->except(['create', 'show', 'edit'])
-    ->middleware('auth');
-
-Route::resource('/stockins', StockInController::class)
-    ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
-
-Route::resource('/stockouts', StockOutController::class)
-    ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
-
-Route::resource('/materialrequests', MaterialRequestController::class)
-    ->only(['index', 'store', 'destroy'])
-    ->middleware('auth');
-
-Route::resource('/invoices', InvoiceController::class)
-    ->only(['show', 'store', 'update'])
-    ->middleware('auth');
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login',  'index')->name('login')->middleware('guest');
+    Route::post('/login',  'authenticate')->middleware('guest');
+    Route::delete('/logout',  'logout')->name('logout')->middleware('auth');
+});

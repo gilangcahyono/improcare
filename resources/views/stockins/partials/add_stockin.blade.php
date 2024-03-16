@@ -39,13 +39,19 @@
               </label>
               <input type="text" name="productName" id="productName"
                 class="typeahead block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Masukan nama produk" required>
+                placeholder="Masukan nama produk" required list="products" autocomplete="off">
+              <datalist id="products">
+                @foreach ($products as $product)
+                  <option value="{{ $product->name }}">{{ $product->name }}</option>
+                @endforeach
+              </datalist>
+
             </div>
             <div class="col-span-6 sm:col-span-3">
               <label for="total" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                 Jumlah
               </label>
-              <input type="number" name="total" id="total" min="1"
+              <input type="number" name="total" min="1"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 placeholder="Masukan Jumlah" required>
             </div>

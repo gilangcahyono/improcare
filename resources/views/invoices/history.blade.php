@@ -14,7 +14,13 @@
             <div class="relative mt-1 lg:w-64 xl:w-96">
               <input type="text" name="search" id="search"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Cari kode invoice" autofocus value="{{ request('search') }}">
+                placeholder="Cari kode invoice" autofocus autocomplete="off" value="{{ request('search') }}"
+                list="invoices">
+              <datalist id="invoices">
+                @foreach ($invoices as $invoice)
+                  <option value="{{ $invoice->name }}">{{ $invoice->name }}</option>
+                @endforeach
+              </datalist>
             </div>
           </form>
         </div>
@@ -26,6 +32,21 @@
     <div class="overflow-x-auto">
       <div class="inline-block min-w-full align-middle">
         <div class="overflow-hidden shadow">
+          @if (session()->has('success'))
+            <div
+              class="mb-4 flex items-center rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-gray-800 dark:text-green-400"
+              role="alert">
+              <svg class="me-3 inline h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">{{ session('success') }}</span>
+              </div>
+            </div>
+          @endif
           <table class="min-w-full table-fixed divide-y divide-gray-200 dark:divide-gray-600">
             <thead class="bg-gray-100 dark:bg-gray-700">
               <tr>
@@ -105,6 +126,30 @@
                         </g>
                       </svg>
                     </button>
+                    @can('admin')
+                      <button type="button" data-modal-target="delete-invoice-modal{{ $invoice->id }}"
+                        data-modal-toggle="delete-invoice-modal{{ $invoice->id }}"
+                        class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd"
+                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                            clip-rule="evenodd"></path>
+                        </svg>
+                      </button>
+                      @if ($invoice->approved)
+                        <input type="hidden" name="sent" value="{{ true }}">
+                        <button type="button" data-modal-target="accept-invoice-modal{{ $invoice->id }}"
+                          data-modal-toggle="accept-invoice-modal{{ $invoice->id }}"
+                          class="inline-flex items-center rounded-lg bg-pink-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-pink-800 focus:ring-4 focus:ring-pink-300 dark:focus:ring-pink-900">
+                          <svg class="h-4 w-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                              d="M4 4a2 2 0 0 0-2 2v9c0 .6.4 1 1 1h.5v.5a3.5 3.5 0 1 0 7-.5h3v.5a3.5 3.5 0 1 0 7-.5h.5c.6 0 1-.4 1-1v-4l-.1-.4-2-4A1 1 0 0 0 19 6h-5a2 2 0 0 0-2-2H4Zm14.2 11.6.3.9a1.5 1.5 0 1 1-.3-1Zm-10 0 .3.9a1.5 1.5 0 1 1-.3-1ZM14 10V8h4.4l1 2H14Z"
+                              clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                      @endif
+                    @endcan
                   </td>
                 </tr>
               @endforeach
@@ -119,7 +164,9 @@
 
   @include('invoices.partials.view_invoice')
 
-  @include('invoices.partials.accept_invoice')
+  @include('invoices.partials.send_invoice')
+
+  @include('invoices.partials.delete_invoice')
 
   @include('invoices.partials.deny_invoice')
 @endsection

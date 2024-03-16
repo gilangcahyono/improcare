@@ -65,6 +65,7 @@
                 <option value="Operasional Manager">Operasional Manager</option>
                 <option value="Sales Manager">Sales Manager</option>
                 <option value="Service Operator">Service Operator</option>
+                <option value="Service Supervisor">Service Supervisor</option>
               </select>
             </div>
             <div class="col-span-6 sm:col-span-3">

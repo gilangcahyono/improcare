@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('barcode');
             $table->string('product');
             $table->integer('total');
-            $table->string('customer');
+            $table->string('supplier');
             $table->string('information')->nullable();
             $table->timestamps();
         });

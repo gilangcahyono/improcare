@@ -18,16 +18,29 @@
             </svg>
             Tambah Stok Masuk
           </button>
+          <div>
+            <input type="date" name="date" id="date"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm">
+          </div>
         </div>
         <div class="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-          <form class="lg:pr-3" action="{{ route('stockins.index') }}" method="GET">
+          {{-- <form class="flex gap-2 lg:pr-3" action="{{ route('stockins.index') }}" method="GET">
+            <label for="search" class="sr-only">Filter Date</label>
+            <input type="date" name="date" id="date"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm">
             <label for="search" class="sr-only">Search</label>
-            <div class="relative mt-1 lg:w-64 xl:w-96">
+            <div class="relative lg:w-64 xl:w-96">
               <input type="text" name="search" id="search"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Cari (barcode/nama)" autofocus value="{{ request('search') }}">
+                placeholder="Cari (barcode/nama)" autofocus autocomplete="off" value="{{ request('search') }}"
+                list="stockins" />
+              <datalist id="stockins">
+                @foreach ($stockins as $stockin)
+                  <option value="{{ $stockin->product }}">{{ $stockin->product }}</option>
+                @endforeach
+              </datalist>
             </div>
-          </form>
+          </form> --}}
         </div>
       </div>
     </div>
@@ -95,7 +108,7 @@
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $stockin->total }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                    {{ $stockin->created_at }}</td>
+                    {{ $stockin->updated_at }}</td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="view-stockin-modal{{ $stockin->id }}"
                       data-modal-toggle="view-stockin-modal{{ $stockin->id }}"
@@ -135,3 +148,12 @@
 
   @include('stockins.partials.delete_stockin')
 @endsection
+
+@push('scripts')
+  <script>
+    const date = document.getElementById('date');
+    date.addEventListener('change', (e) => {
+      window.location.href = '{{ route('stockins.index') }}?date=' + e.target.value
+    })
+  </script>
+@endpush

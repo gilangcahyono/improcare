@@ -2,23 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\StockOut;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class StockOutController extends Controller
 {
     public function index()
     {
-        $stockouts = StockOut::where('product', 'like', '%' . request('search') . '%')
-            ->orWhere('barcode', 'like', '%' . request('search') . '%')
-            ->simplePaginate(5)
-            ->withQueryString();
+        if (request('date')) {
+            $stockouts = Invoice::latest()
+                // ->whereBetween('updated_at', [(request('date')), (request('date'))])
+                ->whereDate('updated_at', '>=', request('date'))
+                ->whereDate('updated_at', '<=', request('date'))
+                ->where('done', true)
+                ->where('sent', true)
+                ->with('materialrequests')
+                ->simplePaginate(5);
+
+            // return $stockouts;
+        } else {
+            $stockouts = Invoice::latest()
+                ->where('done', true)
+                ->where('sent', true)
+                ->with('materialrequests')
+                ->simplePaginate(5);
+        }
 
         return view('stockouts.stockouts', [
-            'stockouts' => $stockouts,
-            'customers' => Customer::all(),
+            'invoices' => $stockouts,
+            'suppliers' => Supplier::all(),
         ]);
     }
 
@@ -33,7 +49,7 @@ class StockOutController extends Controller
         StockOut::create([
             'barcode' => $product->barcode,
             'total' => $request->total,
-            'customer' => $request->customer,
+            'supplier' => $request->supplier,
             'information' => $request->information,
             'created_at' => $request->created_at,
             'product' => $product->name,
@@ -54,5 +70,14 @@ class StockOutController extends Controller
 
         return redirect(route('stockouts.index'))
             ->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function print(String $name)
+    {
+        $products = Invoice::where('name', '=', $name)->with('materialrequests')->first()->materialrequests;
+
+        return view('stockouts.print', [
+            'products' => $products,
+        ]);
     }
 }

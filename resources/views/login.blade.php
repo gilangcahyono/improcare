@@ -38,7 +38,7 @@
           class="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
           Login
         </h1>
-        <form class="space-y-4 md:space-y-6" action="{{ route('autenticate') }}" method="POST">
+        <form class="space-y-4 md:space-y-6" method="POST">
           @csrf
 
           <div>

@@ -9,10 +9,11 @@ use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $products = Product::latest()
             ->where('name', 'like', '%' . request('search') . '%')
@@ -89,16 +90,27 @@ class ProductController extends Controller
             ->with('success', 'Produk berhasil dihapus!');
     }
 
-    public function autocomplete(Request $request)
+    // public function autocomplete(Request $request)
+    // {
+    //     if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+    //         return abort(403);
+    //     }
+
+    //     $products = Product::select('name')
+    //         ->where('name', 'like', '%' . $request['query'] . '%')
+    //         ->get();
+
+    //     return response()->json($products);
+    // }
+
+    public function print(): View
     {
-        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+        if (!Gate::authorize('admin')) {
             return abort(403);
         }
 
-        $products = Product::select('name')
-            ->where('name', 'like', '%' . $request['query'] . '%')
-            ->get();
-
-        return response()->json($products);
+        return view('products.print', [
+            'products' => Product::all(),
+        ]);
     }
 }

@@ -50,12 +50,11 @@
                 placeholder="Masukan Jumlah" required>
             </div>
             <div class="col-span-6 sm:col-span-3">
-              <label for="customer"
-                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Pelanggan</label>
-              <select id="customer" name="customer"
+              <label for="supplier" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Pemasok</label>
+              <select id="supplier" name="supplier"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                @foreach ($customers as $customer)
-                  <option value="{{ $customer->name }}">{{ $customer->name }}</option>
+                @foreach ($suppliers as $supplier)
+                  <option value="{{ $supplier->name }}">{{ $supplier->name }}</option>
                 @endforeach
               </select>
             </div>

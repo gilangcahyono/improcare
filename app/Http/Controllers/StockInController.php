@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\StockIn;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class StockInController extends Controller
 {
     public function index()
     {
-        $stockins = StockIn::where('product', 'like', '%' . request('search') . '%')
-            ->orWhere('barcode', 'like', '%' . request('search') . '%')
-            ->simplePaginate(5)
-            ->withQueryString();
+        if (request('date')) {
+            $stockins = StockIn::latest()->whereBetween('created_at', [(request('date')), (request('date'))])->simplePaginate(5);
+        } else {
+            $stockins = StockIn::latest()->simplePaginate(5);
+        }
 
         return view('stockins.stockins', [
             'stockins' => $stockins,
             'suppliers' => Supplier::all(),
+            'products' => Product::all(),
         ]);
     }
 

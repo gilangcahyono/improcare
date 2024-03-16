@@ -15,13 +15,14 @@ class MaterialRequestController extends Controller
      */
     public function index()
     {
-        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator', 'operational-manager', 'service-supervisor'])) {
             return abort(403);
         }
 
         return view('requests.materialrequests', [
             'materialrequests' => MaterialRequest::where('sent', false)->get(),
             'customers' => Customer::all(),
+            'products' => Product::all(),
         ]);
     }
 
@@ -30,7 +31,7 @@ class MaterialRequestController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator', 'operatianal-manager', 'service-supervisor'])) {
             return abort(403);
         }
 
@@ -51,8 +52,17 @@ class MaterialRequestController extends Controller
             'total' => intval($product->price) * intval($request->quantity),
         ]);
 
-        return redirect(route('materialrequests.index'))
-            ->with('success', 'Produk telah ditambahkan!');
+        // $request->session()->
+
+        return to_route('materialrequests.index')
+            ->with('success', 'Produk telah ditambahkan!')
+            ->with('requestType', $request->requestType)
+            ->with('customer', $request->customer);
+        // ->withErrors([
+        //     'sussess' => 'Produk telah ditambahkan!',
+        //     'requestType' => $request->requestType,
+        //     'customer' => $request->customer,
+        // ]);
     }
 
     /**

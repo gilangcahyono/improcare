@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <script type="text/javascript">
+  {{-- <script type="text/javascript">
     const path = "{{ route('inputproduct') }}";
 
     $('input.typeahead').typeahead({
@@ -47,7 +47,8 @@
           total.setAttribute('max', data[0].stock);
         })
     })
-  </script>
+  </script> --}}
+  @stack('scripts')
 
 </body>
 

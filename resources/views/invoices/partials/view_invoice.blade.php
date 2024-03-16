@@ -25,7 +25,7 @@
         <!-- Modal body -->
         <div class="space-y-6 p-6">
           <table class="w-full">
-            <thead>
+            <thead class="block w-full">
               <tr>
                 <th class="text-left">Jenis Permintaan</th>
                 <td class="px-6 py-3">:
@@ -49,12 +49,14 @@
                   {{ $invoice->materialrequests[count($invoice->materialrequests) - 1]->customer }}
                 </td>
               </tr>
-              <tr>
-                <th class="text-left">Approve/Tolak oleh</th>
-                <td class="px-6 py-3">: {{ $invoice->approvedBy }}</td>
-              </tr>
+              @if ($invoice->approvedBy)
+                <tr>
+                  <th class="text-left">Approve/Tolak oleh</th>
+                  <td class="px-6 py-3">: {{ $invoice->approvedBy }}</td>
+                </tr>
+              @endif
             </thead>
-            <tbody>
+            <tbody class="block h-32 w-full overflow-y-scroll">
               @foreach ($invoice->materialrequests as $materialrequest)
                 <tr>
                   <td class="px-6 py-3 text-left">{{ $materialrequest->name }}</td>
@@ -64,7 +66,7 @@
                 </tr>
               @endforeach
             </tbody>
-            <tfoot>
+            <tfoot class="block w-full border">
               <tr>
                 <th class="px-6 py-3 text-end" colspan="3">Total</th>
                 <th class="px-6 py-3 text-end">{{ number_format($invoice->totalPrice, 0, ',', '.') }}

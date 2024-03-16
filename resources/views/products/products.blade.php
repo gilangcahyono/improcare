@@ -18,7 +18,7 @@
             </svg>
             Tambah Produk
           </button>
-          {{-- <a href="#"
+          <a href="{{ route('products.print') }}"
             class="inline-flex w-1/2 items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
             <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"
@@ -26,7 +26,7 @@
                 clip-rule="evenodd"></path>
             </svg>
             Export
-          </a> --}}
+          </a>
         </div>
         <div class="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
           <form class="lg:pr-3" action="{{ route('products.index') }}" method="GET">
@@ -34,7 +34,12 @@
             <div class="relative mt-1 lg:w-64 xl:w-96">
               <input type="text" name="search" id="search"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                placeholder="Cari produk (barcode/nama)" autofocus value="{{ request('search') }}">
+                placeholder="Cari produk (barcode/nama)" autofocus value="{{ request('search') }}" list="products">
+              <datalist id="products">
+                @foreach ($products as $product)
+                  <option value="{{ $product->name }}">{{ $product->name }}</option>
+                @endforeach
+              </datalist>
             </div>
           </form>
         </div>
@@ -80,6 +85,9 @@
                   Stok
                 </th>
                 <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+                  Total
+                </th>
+                <th scope="col" class="p-4 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                   Aksi
                 </th>
               </tr>
@@ -95,10 +103,12 @@
                     {{ $product->barcode }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $product->name }}</td>
-                  <td class="whitespace-nowrap p-4 text-end text-base font-medium text-gray-900 dark:text-white">
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ number_format($product->price, 0, ',', '.') }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $product->stock }}</td>
+                  <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                    {{ number_format($product->price * $product->stock, 0, ',', '.') }}</td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="view-product-modal{{ $product->id }}"
                       data-modal-toggle="view-product-modal{{ $product->id }}"

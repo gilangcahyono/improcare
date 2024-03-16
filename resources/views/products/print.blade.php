@@ -41,6 +41,7 @@
   crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 <script>
+  const url = `{{ route('products.index') }}`;
   $(document).ready(function() {
     const table = document.getElementsByTagName("table");
     debugger;
@@ -50,6 +51,6 @@
         name: 'Produk'
       }
     });
-    window.location.href = '/products';
+    window.location.href = url;
   });
 </script>

@@ -13,7 +13,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
 
-        if (!Gate::any(['admin', 'sales-manager', 'service-operator'])) {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator', 'operational-manager'])) {
             return abort(403);
         }
 
@@ -21,7 +21,8 @@ class InvoiceController extends Controller
 
             Invoice::create($request->all());
 
-            MaterialRequest::where('sent', false)->where('user', auth()->user()->name)
+            MaterialRequest::where('sent', false)
+                ->where('user', auth()->user()->name)
                 ->update([
                     'sent' => true,
                     'invoice_id' => Invoice::latest()->first()->id,

@@ -58,12 +58,12 @@
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $invoice->name }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                    {{ $invoice->materialrequests[0]->user }}
+                    {{ $invoice->user }}
                   </td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                     {{ $invoice->created_at }}</td>
                   <td class="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                    {{ $invoice->materialrequests[0]->request_type }}
+                    {{ $invoice->requestType }}
                   </td>
                   <td class="space-x-2 whitespace-nowrap p-4">
                     <button type="button" data-modal-target="view-invoice-modal{{ $invoice->id }}"

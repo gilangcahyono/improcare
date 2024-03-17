@@ -41,7 +41,7 @@
               <label for="barcode" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                 Nama produk
               </label>
-              <input type="text" name="productName" id="productName"
+              <input type="text" name="productName" id="productName" value="{{ session('product') }}"
                 class="typeaheada block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 placeholder="Masukan nama produk" required autocomplete="off" list="products">
               <datalist id="products">
@@ -171,6 +171,10 @@
                 <input type="hidden" name="totalPrice" id="totalPrice" name="totalPrice" required
                   value="{{ $total }}">
                 <input type="hidden" name="name" value="{{ 'INV' . fake()->ean13() }}">
+                <input type="hidden" name="user" value="{{ auth()->user()->name }}">
+                @if (count($materialrequests) > 0)
+                  <input type="hidden" name="requestType" value="{{ $materialrequests[0]->request_type }}">
+                @endif
                 <tr>
                   <th>Total</th>
                   <th colspan="5"

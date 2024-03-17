@@ -20,7 +20,7 @@ class MaterialRequestController extends Controller
         }
 
         return view('requests.materialrequests', [
-            'materialrequests' => MaterialRequest::where('sent', false)->get(),
+            'materialrequests' => MaterialRequest::where('sent', false)->where('user', auth()->user()->name)->get(),
             'customers' => Customer::all(),
             'products' => Product::all(),
         ]);
@@ -39,6 +39,7 @@ class MaterialRequestController extends Controller
 
         if ($request->quantity > $product->stock) {
             return back()->with('requestType', $request->requestType)
+                ->with('product', $product->name)
                 ->with('customer', $request->customer)
                 ->with('overQty', "Maksimal jumlah $product->stock");
         }
@@ -53,8 +54,6 @@ class MaterialRequestController extends Controller
             'quantity' => $request->quantity,
             'total' => intval($product->price) * intval($request->quantity),
         ]);
-
-        // $request->session()->
 
         return to_route('materialrequests.index')
             ->with('success', 'Produk telah ditambahkan!')

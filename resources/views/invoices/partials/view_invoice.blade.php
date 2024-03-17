@@ -29,7 +29,7 @@
               <tr>
                 <th class="text-left">Jenis Permintaan</th>
                 <td class="px-6 py-3">:
-                  {{ $invoice->materialrequests[count($invoice->materialrequests) - 1]->request_type }}</td>
+                  {{ $invoice->requestType }}</td>
               </tr>
               <tr>
                 <th class="text-left">Tanggal</th>
@@ -37,7 +37,7 @@
               </tr>
               <tr>
                 <th class="text-left">User</th>
-                <td class="px-6 py-3">: {{ $invoice->materialrequests[0]->user }}</td>
+                <td class="px-6 py-3">: {{ $invoice->user }}</td>
               </tr>
               <tr>
                 <th class="text-left">Kode</th>

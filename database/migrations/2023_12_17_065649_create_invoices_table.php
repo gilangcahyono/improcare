@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('user');
+            $table->string('requestType');
             $table->integer('totalPrice');
             $table->string('approvedBy')->nullable(true);
             $table->boolean('approved')->default(false);

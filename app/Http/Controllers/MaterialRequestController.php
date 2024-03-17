@@ -31,7 +31,7 @@ class MaterialRequestController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::any(['admin', 'sales-manager', 'service-operator', 'operatianal-manager', 'service-supervisor'])) {
+        if (!Gate::any(['admin', 'sales-manager', 'service-operator', 'operational-manager', 'service-supervisor'])) {
             return abort(403);
         }
 
